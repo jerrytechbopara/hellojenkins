@@ -10,7 +10,7 @@ node {
       sh  "echo 'Hello'"
     }
     stage('publish') {
-        sh "echo 'hello'"
+        sh "whereis kubectl'"
     }
   } finally {
     stage('cleanup') {
