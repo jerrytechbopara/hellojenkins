@@ -61,6 +61,7 @@ pipeline {
                         sh """
 			    kubectl get pods
 			    kubectl get ns
+			    helm ls --all-namespaces
 		
 			"""
 			}
