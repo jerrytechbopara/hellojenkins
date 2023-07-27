@@ -57,11 +57,13 @@ pipeline {
             steps {
                 container('app') {
                     script {
+			kubeconfig(credentialsId: 'sydk8s', serverUrl: 'https://6dezvm.c1.syd1.k8s.ovh.net') {
                         sh """
 			    kubectl get pods
 			    kubectl get ns
 		
 			"""
+			}
                     }
                 }
             }
