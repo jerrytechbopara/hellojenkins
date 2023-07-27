@@ -57,7 +57,11 @@ pipeline {
             steps {
                 container('app') {
                     script {
-                        sh 'kubectl get pods'
+                        sh """
+			    kubectl get pods
+			    kubectl get ns
+		
+			"""
                     }
                 }
             }
