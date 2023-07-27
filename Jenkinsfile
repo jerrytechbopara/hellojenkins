@@ -61,9 +61,7 @@ pipeline {
                         sh """
 			    kubectl get pods
 			    kubectl create ns sampleapp || true
-		            helm repo add helm-charts https://pranay-lonkar.github.io/helm-charts
-			    helm update
-			    helm upgrade  --install  --debug   --wait   sample-node-app helm-charts/sample-node-app -n sampleapp
+			    helm upgrade --install my-release oci://registry-1.docker.io/bitnamicharts/nginx -n sampleapp
 			    kubectl get pods -n sampleapp
 			"""
 			}
