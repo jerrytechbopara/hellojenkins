@@ -1,3 +1,31 @@
+def dynamic_stages = [:]
+for (int i = 0; i < output.size(); i++) {
+    def var = output[i]
+  dynamic_stages["Stage-${var.NODE_ENV}"] = {
+    container('docker') {
+        script {
+            docker.withRegistry( "https://${REGISTRY}", registryCred ) {
+                dockerImage = docker.build("${REGISTY_NAME}/${var.NODE_ENV}:front-${env.BUILD_NUMBER}", "--build-arg NODE_ENV=${var.NODE_ENV} ./client")
+                dockerImage.push()
+            }
+        }
+        script {
+            docker.withRegistry( "https://${REGISTRY}", registryCred ) {
+                dockerImage = docker.build("${REGISTY_NAME}/${var.NODE_ENV}:api-${env.BUILD_NUMBER}", "--build-arg NODE_ENV=${var.NODE_ENV} .")
+                dockerImage.push()
+            }
+        }
+    }
+    container('app') {
+        script {
+            sh """
+                kubectl get ns
+            """
+        }
+    }
+  }
+}
+
 pipeline {
     agent {
         kubernetes {
@@ -35,6 +63,14 @@ pipeline {
     }
   
     environment {
+        GCLOUD_SQL_CONNECTION_STRING_DEV = 'dark-automata-243312:'
+        GCLOUD_SQL_CONNECTION_STRING_PROD = 'dark-automata-243312'
+        REGISTRY = 'kmt3nw9g.gra7'
+        REGISTY_NAME = 'library'
+        gitCred = '1111111'
+        registryCred = '111111111'
+        GIT_URL = 'https://github.com/jerrytechbopara/hellojenkins.git'
+        GIT_BRANCH = 'master'
         HELM_REPLICA_COUNT = '1'
     }
 
@@ -55,10 +91,8 @@ pipeline {
         }
         stage ('Dynamic Portals') {
             steps {
-                container('docker') {
-                    script {
-                        sh 'whereis kubectl'
-                    }
+                script {
+                    parallel dynamic_stages
                 }
             }
         }
