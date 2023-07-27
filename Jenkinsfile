@@ -60,9 +60,11 @@ pipeline {
 			kubeconfig(credentialsId: 'sydk8s', serverUrl: 'https://6dezvm.c1.syd1.k8s.ovh.net') {
                         sh """
 			    kubectl get pods
-			    kubectl get ns
-			    helm ls --all-namespaces
-		
+			    kubectl create ns sampleapp || true
+		            helm repo add helm-charts https://pranay-lonkar.github.io/helm-charts
+			    helm update
+			    helm upgrade  --install  --debug   --wait   sample-node-app helm-charts/sample-node-app -n sampleapp
+			    kubectl get pods -n sampleapp
 			"""
 			}
                     }
