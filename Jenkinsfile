@@ -41,7 +41,7 @@ pipeline {
     stages {
         stage('Git checkout') {
           steps {
-            checkout([$class: 'GitSCM', branches: [[name: "${GIT_BRANCH}"]], extensions: [], userRemoteConfigs: [[credentialsId: "${gitCred}", url: "${GIT_URL}"]]])   
+            checkout([$class: 'GitSCM', branches: [[name: "${GIT_BRANCH}"]], extensions: []
           }
         }
         stage ('Install Git') {
