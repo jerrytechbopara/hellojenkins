@@ -55,8 +55,10 @@ pipeline {
         }
         stage ('Dynamic Portals') {
             steps {
-                script {
-                    sh 'whereis kubectl'
+                container('docker') {
+                    script {
+                        sh 'whereis kubectl'
+                    }
                 }
             }
         }
