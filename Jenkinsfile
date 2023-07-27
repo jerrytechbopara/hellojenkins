@@ -41,7 +41,7 @@ pipeline {
     stages {
         stage('Git checkout') {
           steps {
-            checkout([$class: 'GitSCM', branches: [[name: "${GIT_BRANCH}"]], extensions: []
+            sh "echo 'helo'"
           }
         }
         stage ('Install Git') {
