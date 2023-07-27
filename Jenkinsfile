@@ -56,7 +56,7 @@ pipeline {
         stage ('Dynamic Portals') {
             steps {
                 script {
-                    sh 'kubectl get ns'
+                    sh 'whereis kubectl'
                 }
             }
         }
