@@ -7,12 +7,10 @@ node {
       sh "git clean -fdx"
     }
     stage('compile') {
-      sh  "cat /etc/issue"
+      sh  "echo 'Hello'"
     }
     stage('publish') {
-      kubeconfig(credentialsId: 'sydk8s', serverUrl: 'https://6dezvm.c1.syd1.k8s.ovh.net') {
-        sh "kubectl get ns"
-    }
+        sh "echo 'hello'"
     }
   } finally {
     stage('cleanup') {
